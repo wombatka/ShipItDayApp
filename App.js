@@ -1,8 +1,27 @@
 import React from 'react';
+import axios from 'axios';
 import { AsyncStorage,StyleSheet, Text,TextInput, View ,Image, TouchableOpacity} from 'react-native';
 
 export default class App extends React.Component {
     saveItem() {
+        axios.get('https://community-food2fork.p.mashape.com/search', {
+            params: {
+                key: '486ed0c9faa8176abb1bdbb8142feb92',
+                q: 'shredded chicken'
+            },
+            headers: {
+                'X-Mashape-Key': 'dNSOCbIg9hmshP8RMirNls4rJG11p1ZpVjDjsnU3Fout7Ze7Gu',
+                Accept: 'application/json'
+            }
+        }).then(response => {
+            //this.props.stopFetchAction();
+            console.log(response.data.recipes);
+           // this.props.newRecipeList(response.data.recipes);
+        });
+
+
+
+
         const object = {
           name : 'scrambled',
           category : 'breakfast',
