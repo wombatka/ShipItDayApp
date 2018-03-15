@@ -49,10 +49,47 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        marginTop: 50,
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+    },
+    AddStyle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'green',
+        borderWidth: .5,
+        borderColor: '#fff',
+        height: 40,
+        borderRadius: 5 ,
+        margin: 5,
+
+    },
+    ImageIconStyle: {
+        top: 5,
+        padding: 10,
+        margin: 5,
+        height: 25,
+        width: 25,
+        resizeMode : 'stretch',
+
+    },
+
+    TextStyle :{
+
+        color: "#fff",
+        marginBottom : 4,
+        marginRight :20,
+
+    },
+
+    SeparatorLine :{
+
+        backgroundColor : '#fff',
+        width: 1,
+        height: 40
+
+    }
 });
