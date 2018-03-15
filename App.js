@@ -7,14 +7,16 @@ export default class App extends React.Component {
         super();
         this.state =
             {
-                TextInputValueHolder: 'a'
+                TextInputValueHolder: '',
+                onChangeText: '',
+                title: 'no title display'
             }
     }
     getAllData() {
         axios.get('https://community-food2fork.p.mashape.com/search', {
             params: {
                 key: '486ed0c9faa8176abb1bdbb8142feb92',
-                q: this.state.TextInputValueHolder.toString()
+                //q: this.state.TextInputValueHolder.toString()
             },
             headers: {
                 'X-Mashape-Key': 'dNSOCbIg9hmshP8RMirNls4rJG11p1ZpVjDjsnU3Fout7Ze7Gu',
@@ -22,7 +24,12 @@ export default class App extends React.Component {
             }
         }).then(response => {
             //this.props.stopFetchAction();
-            console.log(response.data.recipes);
+              response.data.recipes.map(recipe => {
+              AsyncStorage.setItem(recipe['recipe_id'], JSON.stringify(recipe));
+              console.log(recipe);
+            //  AsyncStorage.setItem('recipes', response.data.recipes);
+            });
+
             // this.props.newRecipeList(response.data.recipes);
         });
     }
@@ -37,28 +44,25 @@ export default class App extends React.Component {
     }
     displayData = async()=>{
       try{
-        const recipie = await AsyncStorage.getItem('recipie');
+        const keys = await AsyncStorage.getAllKeys();
+        const recipie = await AsyncStorage.getItem(keys[0]);
         const parsed = JSON.parse(recipie);
-        alert(parsed.name);
+        console.log(parsed.title);
+        console.log(keys);
+        this.setState({ title: parsed.title })
+
+      //  alert(parsed.title);
+
       }catch(error){
         alert(error);
       }
     }
-    callFun = () =>
-    {
-
-        alert("Image Clicked!!!");
-
-    }
-
-
-
 
 
     render() {
     return (
       <View style={styles.container}>
-          <TouchableOpacity style={styles.AddStyle} activeOpacity={0.5} onPress={ this.saveItem}>
+          <TouchableOpacity style={styles.AddStyle} activeOpacity={0.5} onPress={this.getAllData}>
 
               <Image source={require('./images/add.png')}
                   style={styles.ImageIconStyle}
@@ -81,11 +85,8 @@ export default class App extends React.Component {
               style = { styles.TextInputStyle }
               onChangeText = { ( TextInputText ) => { this.setState({ TextInputValueHolder: TextInputText })} }
           />
-          <Button title="Click Here To Share TextInput Inside Typed Text as Message" onPress={ this.getAllData() } />
-
-          <Text>HAHAH</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+        <Button title="Click Here To Share TextInput Inside Typed Text as Message"  onPress={this.getAllData}/>
+        <Text>{this.state.title}</Text>
       </View>
     );
   }
@@ -130,7 +131,6 @@ const styles = StyleSheet.create({
             textAlign: 'center'
         },
     TextStyle :{
-
         color: "#fff",
         marginBottom : 4,
         marginRight :20,
