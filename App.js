@@ -3,15 +3,21 @@ import { AsyncStorage,StyleSheet, Text,TextInput, View ,Image, TouchableOpacity}
 
 export default class App extends React.Component {
     saveItem() {
-        let recipie = 'scramblked eggs';
-        AsyncStorage.setItem('recipie', recipie);
+        const object = {
+          name : 'scrambled',
+          category : 'breakfast',
+          recipie : 'blanbla',
+          ingredient : 'egg'
+        }
+        AsyncStorage.setItem('recipie', JSON.stringify(object));
     }
     displayData = async()=>{
       try{
-        let user = await AsyncStorage.getItem('user');
-          alert(user);
+        const recipie = await AsyncStorage.getItem('recipie');
+        const parsed = JSON.parse(recipie);
+        alert(parsed.name);
       }catch(error){
-
+        alert(error);
       }
     }
     callFun = () =>
@@ -23,7 +29,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-          <TouchableOpacity style={styles.AddStyle} activeOpacity={0.5} onPress={ this.saveItem }>
+          <TouchableOpacity style={styles.AddStyle} activeOpacity={0.5} onPress={ this.saveItem}>
 
               <Image source={require('./images/add.png')}
                   style={styles.ImageIconStyle}
@@ -36,7 +42,7 @@ export default class App extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity onPress={this.displayData}>
             <Text>
-              Click me to save data
+              Click me to display
             </Text>
           </TouchableOpacity>
         <TextInput></TextInput>
