@@ -1,11 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import {AsyncStorage, Image,Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {AsyncStorage,ListView , Image,Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import { List, ListItem } from 'react-native-elements'
 
 export default class App extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state =
             {
                 TextInputValueHolder: '',
@@ -14,8 +16,24 @@ export default class App extends React.Component {
                 newRecipeTitle: '',
                 newRecipeHolder: '',
                 recipeID: 6666,
-                titles: ['example title']
+                titles: ['example title'],
+                list : [
+                    {
+                        name: 'Amy Farha',
+                        avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+                        subtitle: 'Vice President'
+                    },
+                    {
+                        name: 'Chris Jackson',
+                        avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+                        subtitle: 'Vice Chairman'
+                    },
+
+                ],
+
+                dataSource: ds.cloneWithRows(['row 1', 'row 2']),
             }
+
         this.getAllData();
     }
     getAllData() {
@@ -99,7 +117,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
           <TextInput ref={input => { this.newTitleInput = input }}
               underlineColorAndroid = "transparent"
-              placeholder="Recipe title?"
+              placeholder="Recipe title"
               style = { styles.TextInputStyle }
               onChangeText = { ( TextInputText ) => { this.setState({ newRecipeHolder: TextInputText })} }
           />
@@ -122,7 +140,27 @@ export default class App extends React.Component {
           />
         <Button title="GET RECIPIE"  onPress={this.displayData}/>
         <View>{this.state.titles.map(elem =><Text key={elem} style = {styles.ItemsList}>{elem}</Text>)}</View>
+          <ListView pageSize={1}
+              dataSource={this.state.dataSource}
+              renderRow={(rowData) => <Text>{rowData}</Text>}
+          />
+          <List containerStyle={{height: 200,
+              width: 300,marginBottom: 20}}>
+              {
+                  this.state.list.map((l, i) => (
+                      <ListItem
+                          roundAvatar
+                          avatar={{uri:l.avatar_url}}
+                          key={i}
+                          title={l.name}
+                      />
+                  ))
+              }
+          </List>
+
       </View>
+
+
     );
   }
 }
