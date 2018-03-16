@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import {AsyncStorage, Image,Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {AsyncStorage, ScrollView, Image,Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 
 export default class App extends React.Component {
 
@@ -92,7 +92,7 @@ export default class App extends React.Component {
           //console.log('from string in array : ' + par.title);
           recipies.push(par.title);
           image.push(par.image_url)
-          
+
         });
         this.setState({titles : recipies});
         this.setState({images : image})
@@ -135,7 +135,7 @@ export default class App extends React.Component {
           />
         <Button title="GET RECIPIE"  onPress={this.displayData}/>
 
-      <View>{this.state.objects.map(object =><Text key={object.name} style = {styles.ItemsList}>{object.name}<Image style={{width: 100, height: 100}} key={object} source={{uri:object.image}}/></Text>)}</View>
+      <ScrollView>{this.state.objects.map(object =><Text key={object.name} style = {styles.ItemsList}>{object.name}<Image style={{width: 100, height: 100}} key={object} source={{uri:object.image}}/></Text>)}</ScrollView>
       </View>
     );
   }
