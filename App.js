@@ -34,6 +34,14 @@ export default class App extends React.Component {
                 dataSource: ds.cloneWithRows(['row 1', 'row 2']),
             }
 
+                titles: ['example'],
+                objects: [
+                            {name:'test',
+                                image: 'http://static.food2fork.com/healthy_cookies4ee3.jpg'
+                              }
+                ],
+                images : ['http://static.food2fork.com/healthy_cookies4ee3.jpg']
+              }
         this.getAllData();
     }
     getAllData() {
@@ -92,17 +100,24 @@ export default class App extends React.Component {
           }
         });
         const recipies = [];
+        const image = [];
+        const items= [];
         titles.forEach(async element => {
           const item = await AsyncStorage.getItem(element);
           console.log(item);
           const par = JSON.parse(item);
-
+          const object={name : par.title, image: par.image_url};
+          console.log(object)
+          items.push(object);
           //console.log('from string in array : ' + par.title);
           recipies.push(par.title);
+          image.push(par.image_url)
 
-          console.log('array content: ' + recipies);
         });
         this.setState({titles : recipies});
+        this.setState({images : image})
+        this.setState({objects : items})
+
 
       //  alert(parsed.title);
 
@@ -158,6 +173,8 @@ export default class App extends React.Component {
               }
           </List>
 
+
+      <View>{this.state.objects.map(object =><Text key={object.name} style = {styles.ItemsList}>{object.name}<Image style={{width: 100, height: 100}} key={object} source={{uri:object.image}}/></Text>)}</View>
       </View>
 
 
