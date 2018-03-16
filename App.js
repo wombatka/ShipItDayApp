@@ -11,6 +11,7 @@ class App extends React.Component {
             {
                 TextInputValueHolder: '',
                 onChangeText: '',
+                url : 'http://www.closetcooking.com/2009/03/chocolate-stout-cake-with-baileys-cream.html',
                 title: 'no title display',
                 newRecipeTitle: '',
                 newRecipeHolder: '',
@@ -18,7 +19,8 @@ class App extends React.Component {
                 titles: ['example title'],
                 objects: [
                             {name:'test',
-                                image: 'http://static.food2fork.com/healthy_cookies4ee3.jpg'
+                                image: 'http://static.food2fork.com/healthy_cookies4ee3.jpg',
+                                url :'http://www.closetcooking.com/2009/03/chocolate-stout-cake-with-baileys-cream.html'
                               }
                 ],
                 images : ['http://static.food2fork.com/healthy_cookies4ee3.jpg']
@@ -87,7 +89,7 @@ class App extends React.Component {
           const item = await AsyncStorage.getItem(element);
           console.log(item);
           const par = JSON.parse(item);
-          const object={name : par.title, image: par.image_url};
+          const object={name : par.title, image: par.image_url, url: par.source_url};
           console.log(object)
           items.push(object);
           //console.log('from string in array : ' + par.title);
@@ -95,6 +97,7 @@ class App extends React.Component {
           image.push(par.image_url)
 
         });
+        await AsyncStorage.getAllKeys();
         this.setState({titles : recipies});
         this.setState({images : image})
         this.setState({objects : items})
@@ -106,7 +109,6 @@ class App extends React.Component {
         alert(error);
       }
     }
-
 
     render() {
     return (
@@ -145,7 +147,7 @@ class App extends React.Component {
                           avatar={{uri:l.image}}
                           key={i}
                           title={l.name}
-                       onPress={() => this.props.navigation.navigate('Details')}/>
+                       onPress={()=>this.props.navigation.navigate('Details', {url: l.url})}/>
                   ))
               }
           </List>
@@ -221,7 +223,7 @@ class DetailsScreen extends React.Component {
     return (
       <View style={{height : 600}}>
         <WebView
-        source={{uri: 'http://www.closetcooking.com/2009/03/chocolate-stout-cake-with-baileys-cream.html'}}
+        source={{uri: this.props.navigation.state.params.url}}
       />
       <Button
         title="Go back"
@@ -232,7 +234,12 @@ class DetailsScreen extends React.Component {
   }
 }
 const SimpleApp = StackNavigator({
-  Home: { screen: App },
-  Details: { screen: DetailsScreen},
+  Home: { screen: App,
+          url :  'http://www.closetcooking.com/2009/03/chocolate-stout-cake-with-baileys-cream.html'
+    },
+  Details: { screen: DetailsScreen,
+            url :  'http://www.closetcooking.com/2009/03/chocolate-stout-cake-with-baileys-cream.html'
+
+  },
 });
 export default SimpleApp;
