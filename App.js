@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import {AsyncStorage,ScrollView, ListView , Image,Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {AsyncStorage,ScrollView, WebView, ListView , Image,Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import { List, ListItem } from 'react-native-elements'
 
 export default class App extends React.Component {
@@ -135,11 +135,12 @@ export default class App extends React.Component {
               onChangeText = { ( TextInputText ) => { this.setState({ TextInputValueHolder: TextInputText })} }
           />
         <Button title="GET RECIPIE"  onPress={this.displayData}/>
-          <List containerStyle={{height: 200,
+        <ScrollView>
+          <List containerStyle={{height: 600,
               width: 300,marginBottom: 20}}>
               {
                   this.state.objects.map((l, i) => (
-                      <ListItem
+                    <ListItem
                           roundAvatar
                           avatar={{uri:l.image}}
                           key={i}
@@ -148,6 +149,7 @@ export default class App extends React.Component {
                   ))
               }
           </List>
+          </ScrollView>
       </View>
 
 
