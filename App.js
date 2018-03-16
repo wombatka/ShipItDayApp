@@ -7,7 +7,6 @@ export default class App extends React.Component {
 
     constructor(props) {
         super(props);
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state =
             {
                 TextInputValueHolder: '',
@@ -17,9 +16,6 @@ export default class App extends React.Component {
                 newRecipeHolder: '',
                 recipeID: 6666,
                 titles: ['example title'],
-            }
-
-                titles: ['example'],
                 objects: [
                             {name:'test',
                                 image: 'http://static.food2fork.com/healthy_cookies4ee3.jpg'
@@ -139,27 +135,19 @@ export default class App extends React.Component {
               onChangeText = { ( TextInputText ) => { this.setState({ TextInputValueHolder: TextInputText })} }
           />
         <Button title="GET RECIPIE"  onPress={this.displayData}/>
-        <View>{this.state.titles.map(elem =><Text key={elem} style = {styles.ItemsList}>{elem}</Text>)}</View>
-          <ListView pageSize={1}
-              dataSource={this.state.dataSource}
-              renderRow={(rowData) => <Text>{rowData}</Text>}
-          />
           <List containerStyle={{height: 200,
               width: 300,marginBottom: 20}}>
               {
-                  this.state.list.map((l, i) => (
+                  this.state.objects.map((l, i) => (
                       <ListItem
                           roundAvatar
-                          avatar={{uri:l.avatar_url}}
+                          avatar={{uri:l.image}}
                           key={i}
                           title={l.name}
                       />
                   ))
               }
           </List>
-
-
-      <ScrollView>{this.state.objects.map(object =><Text key={object.name} style = {styles.ItemsList}>{object.name}<Image style={{width: 100, height: 100}} key={object} source={{uri:object.image}}/></Text>)}</ScrollView>
       </View>
 
 
