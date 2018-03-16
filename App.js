@@ -72,10 +72,7 @@ export default class App extends React.Component {
         });
         const recipies = [];
         titles.forEach(async element => {
-
-          console.log('element: '+element);
-          const pattern = element;
-          const item = await AsyncStorage.getItem(pattern);
+          const item = await AsyncStorage.getItem(element);
           console.log(item);
           const par = JSON.parse(item);
 
@@ -85,7 +82,7 @@ export default class App extends React.Component {
           console.log('array content: ' + recipies);
         });
         this.setState({titles : recipies});
-        
+
       //  alert(parsed.title);
 
       }catch(error){
@@ -121,7 +118,7 @@ export default class App extends React.Component {
               onChangeText = { ( TextInputText ) => { this.setState({ TextInputValueHolder: TextInputText })} }
           />
         <Button title="GET RECIPIE"  onPress={this.displayData}/>
-        <View>{this.state.titles.map(elem =><Text>{elem}</Text>)}</View>
+        <View>{this.state.titles.map(elem =><Text key={elem} style = {styles.ItemsList}>{elem}</Text>)}</View>
       </View>
     );
   }
@@ -178,5 +175,10 @@ const styles = StyleSheet.create({
         width: 1,
         height: 40
 
+    },
+    ItemsList :{
+      textAlign: 'center',
+      fontSize: 20,
+      fontWeight: 'bold',
     }
 });
