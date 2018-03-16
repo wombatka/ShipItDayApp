@@ -57,7 +57,10 @@ export default class App extends React.Component {
         }
         AsyncStorage.setItem(this.state.newRecipeHolder, JSON.stringify(object2));
         this.state.recipeID=this.state.recipeID+1;
+        this.newTitleInput.clear();
+
     }
+
     displayData = async()=>{
       try{
         const pattern = this.state.TextInputValueHolder;
@@ -86,7 +89,7 @@ export default class App extends React.Component {
     render() {
     return (
       <View style={styles.container}>
-          <TextInput
+          <TextInput ref={input => { this.newTitleInput = input }}
               underlineColorAndroid = "transparent"
               placeholder="Recipe title?"
               style = { styles.TextInputStyle }
