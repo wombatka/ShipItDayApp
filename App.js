@@ -2,8 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import {AsyncStorage,ScrollView, WebView, ListView , Image,Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import { List, ListItem } from 'react-native-elements'
-
-export default class App extends React.Component {
+import { StackNavigator } from 'react-navigation';
+class App extends React.Component {
 
     constructor(props) {
         super(props);
@@ -145,11 +145,12 @@ export default class App extends React.Component {
                           avatar={{uri:l.image}}
                           key={i}
                           title={l.name}
-                      />
+                       onPress={() => this.props.navigation.navigate('Details')}/>
                   ))
               }
           </List>
           </ScrollView>
+
       </View>
 
 
@@ -215,3 +216,24 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
     }
 });
+class DetailsScreen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Details Screen</Text>
+        <WebView
+        source={{uri: 'http://www.closetcooking.com/2009/03/chocolate-stout-cake-with-baileys-cream.html'}}
+      />
+        <Button
+          title="Go back"
+          onPress={() => this.props.navigation.goBack()}
+        />
+      </View>
+    );
+  }
+}
+const SimpleApp = StackNavigator({
+  Home: { screen: App },
+  Details: { screen: DetailsScreen},
+});
+export default SimpleApp;
