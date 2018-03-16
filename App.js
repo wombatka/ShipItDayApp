@@ -219,15 +219,14 @@ const styles = StyleSheet.create({
 class DetailsScreen extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Details Screen</Text>
+      <View style={{height : 600}}>
         <WebView
         source={{uri: 'http://www.closetcooking.com/2009/03/chocolate-stout-cake-with-baileys-cream.html'}}
       />
-        <Button
-          title="Go back"
-          onPress={() => this.props.navigation.goBack()}
-        />
+      <Button
+        title="Go back"
+        onPress={() => this.props.navigation.goBack()}
+      />
       </View>
     );
   }
