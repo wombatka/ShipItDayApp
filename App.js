@@ -70,7 +70,7 @@ export default class App extends React.Component {
     render() {
     return (
       <View style={styles.container}>
-          <TouchableOpacity style={styles.AddStyle} activeOpacity={0.5} onPress={this.getAllData}>
+          <TouchableOpacity style={styles.AddStyle} activeOpacity={0.5} onPress={this.saveItem}>
 
               <Image source={require('./images/add.png')}
                   style={styles.ImageIconStyle}
@@ -81,9 +81,9 @@ export default class App extends React.Component {
               <Text style={styles.TextStyle}> Add recipe </Text>
 
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.displayData}>
+          <TouchableOpacity onPress={this.getAllData}>
             <Text>
-              Click me to display
+              Get data
             </Text>
           </TouchableOpacity>
 
@@ -93,7 +93,7 @@ export default class App extends React.Component {
               style = { styles.TextInputStyle }
               onChangeText = { ( TextInputText ) => { this.setState({ TextInputValueHolder: TextInputText })} }
           />
-        <Button title="Click Here To Share TextInput Inside Typed Text as Message"  onPress={this.getAllData}/>
+        <Button title="GET RECIPIE"  onPress={this.displayData}/>
         <Text>{this.state.title}</Text>
       </View>
     );
