@@ -95,6 +95,7 @@ class App extends React.Component {
           image.push(par.image_url)
 
         });
+        await AsyncStorage.getAllKeys();
         this.setState({titles : recipies});
         this.setState({images : image})
         this.setState({objects : items})
