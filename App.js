@@ -136,7 +136,7 @@ export default class App extends React.Component {
           />
         <Button title="GET RECIPIE"  onPress={this.displayData}/>
         <ScrollView>
-          <List containerStyle={{height: 600,
+          <List containerStyle={{height: "100%",
               width: 300,marginBottom: 20}}>
               {
                   this.state.objects.map((l, i) => (
