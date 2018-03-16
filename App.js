@@ -11,6 +11,7 @@ export default class App extends React.Component {
                 onChangeText: '',
                 title: 'no title display'
             }
+        this.getAllData();
     }
     getAllData() {
         axios.get('https://community-food2fork.p.mashape.com/search', {
@@ -81,15 +82,9 @@ export default class App extends React.Component {
               <Text style={styles.TextStyle}> Add recipe </Text>
 
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.getAllData}>
-            <Text>
-              Get data
-            </Text>
-          </TouchableOpacity>
-
           <TextInput
               underlineColorAndroid = "transparent"
-              placeholder="Enter Text Here To Share"
+              placeholder="What do you want to eat?"
               style = { styles.TextInputStyle }
               onChangeText = { ( TextInputText ) => { this.setState({ TextInputValueHolder: TextInputText })} }
           />
