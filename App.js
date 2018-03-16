@@ -9,14 +9,15 @@ export default class App extends React.Component {
             {
                 TextInputValueHolder: '',
                 onChangeText: '',
-                title: 'no title display'
+                title: 'no title display',
+                titles: ['example title']
             }
     }
     getAllData() {
         axios.get('https://community-food2fork.p.mashape.com/search', {
             params: {
                 key: '486ed0c9faa8176abb1bdbb8142feb92',
-                //q: this.state.TextInputValueHolder.toString()
+                q: '*'
             },
             headers: {
                 'X-Mashape-Key': 'dNSOCbIg9hmshP8RMirNls4rJG11p1ZpVjDjsnU3Fout7Ze7Gu',
@@ -49,15 +50,30 @@ export default class App extends React.Component {
         const titles = [];
         keys.forEach(elem => {
           if(elem.includes(pattern)){
-            titles.push(elem)
-            console.log(titles);// body...console
+            titles.push(elem);
+            //console.log(titles);// body...console
           }
         });
+        const recipies = [];
+        titles.forEach(async element => {
+
+          console.log('element: '+element);
+          const pattern = element;
+          const item = await AsyncStorage.getItem(pattern);
+          console.log(item);
+          const par = JSON.parse(item);
+
+          //console.log('from string in array : ' + par.title);
+          recipies.push(par.title);
+
+          console.log('array content: ' + recipies);
+        });
+        this.setState({titles : recipies});
         const recipie = await AsyncStorage.getItem(titles[0]);
         const parsed = JSON.parse(recipie);
         console.log(parsed.title);
         console.log(keys);
-        this.setState({ title: parsed.title })
+        this.setState({ title: parsed.title });
 
       //  alert(parsed.title);
 
@@ -68,6 +84,8 @@ export default class App extends React.Component {
 
 
     render() {
+      //const components = this.state.titles.map(elem =><Text>{elem}</Text>);
+
     return (
       <View style={styles.container}>
           <TouchableOpacity style={styles.AddStyle} activeOpacity={0.5} onPress={this.saveItem}>
@@ -95,6 +113,7 @@ export default class App extends React.Component {
           />
         <Button title="GET RECIPIE"  onPress={this.displayData}/>
         <Text>{this.state.title}</Text>
+        <View>{this.state.titles.map(elem =><Text>{elem}</Text>)}</View>
       </View>
     );
   }
