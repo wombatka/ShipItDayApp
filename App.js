@@ -85,12 +85,7 @@ export default class App extends React.Component {
           console.log('array content: ' + recipies);
         });
         this.setState({titles : recipies});
-        const recipie = await AsyncStorage.getItem(titles[0]);
-        const parsed = JSON.parse(recipie);
-        console.log(parsed.title);
-        console.log(keys);
-        this.setState({ title: parsed.title });
-
+        
       //  alert(parsed.title);
 
       }catch(error){
@@ -126,7 +121,6 @@ export default class App extends React.Component {
               onChangeText = { ( TextInputText ) => { this.setState({ TextInputValueHolder: TextInputText })} }
           />
         <Button title="GET RECIPIE"  onPress={this.displayData}/>
-        <Text>{this.state.title}</Text>
         <View>{this.state.titles.map(elem =><Text>{elem}</Text>)}</View>
       </View>
     );
