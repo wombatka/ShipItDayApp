@@ -25,7 +25,7 @@ export default class App extends React.Component {
         }).then(response => {
             //this.props.stopFetchAction();
               response.data.recipes.map(recipe => {
-              AsyncStorage.setItem(recipe['recipe_id'], JSON.stringify(recipe));
+              AsyncStorage.setItem(recipe['title'], JSON.stringify(recipe));
               console.log(recipe);
             //  AsyncStorage.setItem('recipes', response.data.recipes);
             });
@@ -44,8 +44,16 @@ export default class App extends React.Component {
     }
     displayData = async()=>{
       try{
+        const pattern = this.state.TextInputValueHolder;
         const keys = await AsyncStorage.getAllKeys();
-        const recipie = await AsyncStorage.getItem(keys[0]);
+        const titles = [];
+        keys.forEach(elem => {
+          if(elem.includes(pattern)){
+            titles.push(elem)
+            console.log(titles);// body...console
+          }
+        });
+        const recipie = await AsyncStorage.getItem(titles[0]);
         const parsed = JSON.parse(recipie);
         console.log(parsed.title);
         console.log(keys);
