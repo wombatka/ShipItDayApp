@@ -3,6 +3,7 @@ import axios from 'axios';
 import {AsyncStorage, Image,Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 
 export default class App extends React.Component {
+
     constructor() {
         super();
         this.state =
@@ -10,8 +11,12 @@ export default class App extends React.Component {
                 TextInputValueHolder: '',
                 onChangeText: '',
                 title: 'no title display',
+                newRecipeTitle: '',
+                newRecipeHolder: '',
+                recipeID: 6666,
                 titles: ['example title']
             }
+        this.getAllData();
     }
     getAllData() {
         axios.get('https://community-food2fork.p.mashape.com/search', {
@@ -27,21 +32,32 @@ export default class App extends React.Component {
             //this.props.stopFetchAction();
               response.data.recipes.map(recipe => {
               AsyncStorage.setItem(recipe['title'], JSON.stringify(recipe));
-              console.log(recipe);
+              console.log(response.data.recipes);
             //  AsyncStorage.setItem('recipes', response.data.recipes);
             });
 
             // this.props.newRecipeList(response.data.recipes);
         });
     }
-    saveItem() {
+    saveItem = async()=>{
+        const object2 = {
+            "f2f_url": "http://food2fork.com/view/47692",
+                "image_url": "http://static.food2fork.com/healthy_cookies4ee3.jpg",
+                "publisher": "101 Cookbooks",
+                "publisher_url": "http://www.101cookbooks.com",
+                "recipe_id": this.state.recipeID.toString(),
+                "social_rank": 100,
+                "source_url": "http://www.101cookbooks.com/archives/nikkis-healthy-cookies-recipe.html",
+                "title": this.state.newRecipeHolder,
+        }
         const object = {
           name : 'scrambled',
           category : 'breakfast',
           recipie : 'blanbla',
           ingredient : 'egg'
         }
-        AsyncStorage.setItem('recipie', JSON.stringify(object));
+        AsyncStorage.setItem(this.state.newRecipeHolder, JSON.stringify(object2));
+        this.state.recipeID=this.state.recipeID+1;
     }
     displayData = async()=>{
       try{
@@ -84,10 +100,14 @@ export default class App extends React.Component {
 
 
     render() {
-      //const components = this.state.titles.map(elem =><Text>{elem}</Text>);
-
     return (
       <View style={styles.container}>
+          <TextInput
+              underlineColorAndroid = "transparent"
+              placeholder="Recipe title?"
+              style = { styles.TextInputStyle }
+              onChangeText = { ( TextInputText ) => { this.setState({ newRecipeHolder: TextInputText })} }
+          />
           <TouchableOpacity style={styles.AddStyle} activeOpacity={0.5} onPress={this.saveItem}>
 
               <Image source={require('./images/add.png')}
@@ -99,15 +119,9 @@ export default class App extends React.Component {
               <Text style={styles.TextStyle}> Add recipe </Text>
 
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.getAllData}>
-            <Text>
-              Get data
-            </Text>
-          </TouchableOpacity>
-
           <TextInput
               underlineColorAndroid = "transparent"
-              placeholder="Enter Text Here To Share"
+              placeholder="What do you want to eat?"
               style = { styles.TextInputStyle }
               onChangeText = { ( TextInputText ) => { this.setState({ TextInputValueHolder: TextInputText })} }
           />
